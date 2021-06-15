@@ -5,13 +5,6 @@ using System.Threading.Tasks;
 
 namespace AspAppMvcWithDb.Models
 {
-    public interface IPostManagement
-    {
-        IEnumerable<Post> GetPosts();
-        Post Create(Post post);
-        Post GetPostById(int id);
-        Post Delete(Post post);
-    }
     public class PostManagement : IPostManagement
     {
         List<Post> posts = new()
