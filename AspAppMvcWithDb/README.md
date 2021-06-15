@@ -39,3 +39,6 @@ ViewImport : namespace qu'on utiliser dans les views (notamment les ViewModels) 
 		-Detail : basé sur l'ID, va afficher les infos d'un post en particulier + en format JSON
 		-Create : <Form> qui va recup les entrées du user va afficher les infos dans index + ajout validation
 
+Etape 7 : Ajout fonctionnalités : ORM en utilisant mySQL
+	j'utilise le framework EFCore pour gérer la base de données
+- Ajout de la première migration

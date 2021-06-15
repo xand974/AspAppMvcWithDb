@@ -46,7 +46,7 @@ namespace AspAppMvcWithDb.Models
         {
             char[] letters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-            Random randomNum = new Random();
+            Random randomNum = new();
 
             string newName = string.Empty;
             int next = 0;
