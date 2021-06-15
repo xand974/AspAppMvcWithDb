@@ -35,7 +35,7 @@ ViewImport : namespace qu'on utiliser dans les views (notamment les ViewModels) 
 	-Shared 
 		-Layout avec bootstrap
 	-Home
-		-Index
+		-Index : Affiche dynamiquement la liste des postes
 		-Detail
 		-Create
 
