@@ -9,14 +9,19 @@ namespace AspAppMvcWithDb.Models
     {
         List<Post> posts = new()
         {
-           new Post {  Id = 1 , Title = "Skate" , Description ="Comment faire un FLip ?.. ", Creator = new Creator { Id =1 , Pseudo= "alex" }  },
-           new Post {  Id = 2 , Title = "Réouverture des cinémas" , Description ="A l'occasion de la réouverture des cinémas,je suis parti voir .. ", Creator = new Creator { Id =2 , Pseudo= "momo" }  },
-           new Post {  Id = 3 , Title = "Lapin" , Description ="laissez mois vous parler de mon lapin, Happy,..", Creator = new Creator { Id =3 , Pseudo= "nomis" }  },
+           new Post {  Id = 1 , Title = "Skate" , Description ="Comment faire un Flip ? ", Creator = new Creator { Id =1 , Pseudo= "alex" }  },
+           new Post {  Id = 2 , Title = "Réouverture des cinémas" , Description ="A l'occasion de la réouverture des cinémas,je suis parti voir", Creator = new Creator { Id =2 , Pseudo= "momo" }  },
+           new Post {  Id = 3 , Title = "Lapin" , Description ="laissez moi vous parler de mon lapin, Happy", Creator = new Creator { Id =3 , Pseudo= "nomis" }  },
         };
 
         public Post Create(Post post)
         {
             post.Id = posts.Max(post => post.Id) + 1;
+            post.Creator = new Creator
+            {
+                Id = post.Id,
+                Pseudo = RandomName()
+            };
             posts.Add(post);
             return post;
         }
@@ -35,6 +40,24 @@ namespace AspAppMvcWithDb.Models
         public IEnumerable<Post> GetPosts()
         {
             return posts;
+        }
+
+        public string RandomName()
+        {
+            char[] letters = { 'a', 'b', 'c', 'd', 'e', 'f' };
+
+            Random randomNum = new Random();
+            int next = randomNum.Next();
+            string newName = string.Empty;
+
+            for (int i = next ; i < letters.Length ; i++)
+            {
+                newName += letters[i];
+            }
+
+            Console.WriteLine(newName);
+            return newName;
+
         }
     }
 }

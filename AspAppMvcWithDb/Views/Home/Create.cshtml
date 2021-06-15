@@ -5,7 +5,7 @@
 
 <h1>Composer votre propre poste !</h1>
 
-<form asp-action="Create" method="post">
+<form asp-controller="Home" asp-action="Create" method="post">
     <div class="mb-3">
         <label asp-for="Title" class="form-label"></label>
         <input asp-for="Title" type="text" class="form-control">

@@ -9,12 +9,19 @@
 
     @foreach (var post in Model.GetPosts)
     {
+        string newPost = string.Empty;
+        string creator = post.Creator.Pseudo != null ? post.Creator.Pseudo : "pas de pseudo";
         <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">@post.Title</h5>
-                <p class="card-text">@post.Description</p>
-                <small>crée par : @post.Creator.Pseudo</small>
+                @if (post.Description.Length > 20)
+                {
+                    newPost = post.Description.Substring(0, 20) + "...";
+                    <p class="card-text">@newPost</p>
+                }
+
+                <small>crée par : @creator</small>
                 <a asp-controller="Home" asp-action="Detail" asp-route-id="@post.Id" class="btn btn-primary">Detail</a>
             </div>
         </div>

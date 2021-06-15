@@ -27,15 +27,14 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateViewModel model)
+        public IActionResult Create(Post post)
         {
-            var post = new Post
+            if (ModelState.IsValid)
             {
-                Creator = model.Creator,
-                Title = model.Title,
-                Description = model.Description
-            };
-            return View(post);
+                _management.Create(post);
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         public IActionResult Detail(int id)
@@ -44,7 +43,7 @@ namespace AspAppMvcWithDb.Controllers
             {
                 GetPostById = _management.GetPostById(id)
             };
-            return new JsonResult(model);
+            return new JsonResult(model.GetPostById);
         }
 
         [HttpGet]
