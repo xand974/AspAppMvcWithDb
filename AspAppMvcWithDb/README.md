@@ -19,10 +19,12 @@ Création de deux classes Post et Creator pour avoir un lien entre les postes cr
 Etape 4:
 
 Setup de la logique pour les opérations CRUD des postes en utilisant une interface => par extension, setup de la dependency injection.
+Creation d'une liste fictive avant de créer une base de données
 Setup de la dependency injection dans le Startup.cs 
 	- utilisation de AddTransient<> : à chaque fois qu'on appelera le service, une nouvelle instance de l'implémentation de l'interface sera crée, si c'est la même requête HTTP ou non
 	
 
 Etape 5 : 
 Setup du controller qui va gérer les HttpRequests provenant du client
+Ajout de l'interface dans le ctor du controller => va appeler son implémentation pour effectuer les op
 
