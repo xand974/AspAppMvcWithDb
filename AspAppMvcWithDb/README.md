@@ -36,6 +36,6 @@ ViewImport : namespace qu'on utiliser dans les views (notamment les ViewModels) 
 		-Layout avec bootstrap
 	-Home
 		-Index : Affiche dynamiquement la liste des postes
-		-Detail
-		-Create
+		-Detail : basé sur l'ID, va afficher les infos d'un post en particulier + en format JSON
+		-Create : <Form> qui va recup les entrées du user va afficher les infos dans index + ajout validation
 

@@ -1,0 +1,21 @@
+﻿@model CreateViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Composer votre propre poste !</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" type="text" class="form-control">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" type="text" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Poster</button>
+</form>
+

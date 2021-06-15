@@ -44,7 +44,7 @@ namespace AspAppMvcWithDb.Controllers
             {
                 GetPostById = _management.GetPostById(id)
             };
-            return View(model);
+            return new JsonResult(model);
         }
 
         [HttpGet]
