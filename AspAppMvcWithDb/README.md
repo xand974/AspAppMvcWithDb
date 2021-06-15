@@ -28,3 +28,14 @@ Etape 5 :
 Setup du controller qui va gérer les HttpRequests provenant du client
 Ajout de l'interface dans le ctor du controller => va appeler son implémentation pour effectuer les op
 
+Etape 6 : Views
+
+ViewStart : Exporter le layout dans toutes les views
+ViewImport : namespace qu'on utiliser dans les views (notamment les ViewModels) + TagHelpers
+	-Shared 
+		-Layout avec bootstrap
+	-Home
+		-Index
+		-Detail
+		-Create
+
