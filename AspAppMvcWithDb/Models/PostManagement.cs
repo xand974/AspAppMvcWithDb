@@ -16,6 +16,17 @@ namespace AspAppMvcWithDb.Models
 
         public Post Create(Post post)
         {
+            if (posts.Count <= 0)
+            {
+                post.Id = 1;
+                post.Creator = new Creator
+                {
+                    Id = post.Id,
+                    Pseudo = RandomName()
+                };
+                posts.Add(post);
+                return post;
+            }
             post.Id = posts.Max(post => post.Id) + 1;
             post.Creator = new Creator
             {
@@ -26,10 +37,11 @@ namespace AspAppMvcWithDb.Models
             return post;
         }
 
-        public Post Delete(Post post)
+        public Post Delete(int id)
         {
-            posts.Remove(post);
-            return post;
+            Post deletedPost = posts.Find(post => post.Id == id);
+            posts.Remove(deletedPost);
+            return deletedPost;
         }
 
         public Post GetPostById(int id)

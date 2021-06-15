@@ -51,5 +51,12 @@ namespace AspAppMvcWithDb.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _management.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }
