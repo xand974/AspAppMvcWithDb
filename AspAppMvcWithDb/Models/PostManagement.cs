@@ -44,18 +44,18 @@ namespace AspAppMvcWithDb.Models
 
         public string RandomName()
         {
-            char[] letters = { 'a', 'b', 'c', 'd', 'e', 'f' };
+            char[] letters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
             Random randomNum = new Random();
-            int next = randomNum.Next();
+
             string newName = string.Empty;
-
-            for (int i = next ; i < letters.Length ; i++)
+            int next = 0;
+            for (int i = 0; i <= next; i++)
             {
-                newName += letters[i];
-            }
+                next = randomNum.Next(letters.Length);
 
-            Console.WriteLine(newName);
+                newName += letters[next];
+            }
             return newName;
 
         }
