@@ -1,0 +1,36 @@
+﻿@model EditViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+@{ 
+    var photo = "~/Images/"+(Model.PhotoPath?? "No_Image.jpg");
+} 
+<div class="form-container row">
+    <h1>Edit</h1>
+    <form enctype="multipart/form-data" asp-controller="Home" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="PhotoPath" />
+        <div class="mb-4">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" type="text" class="form-control">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Description" class="form-label"></label>
+            <input asp-for="Description" type="text" class="form-control">
+            <span asp-validation-for="Description" class="text-danger"></span>
+
+
+            <label asp-for="Photo" class="customFile"></label>
+            <input asp-for="Photo" placeholder="Changer de Photo ici" class="form-control custom-file-input" id="customFile" />
+        </div>
+        <div class="flex mb-4" style="text-align:center;">
+            <img class="card-img-index" src="@photo" asp-append-version="true" />
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index"  >Go back</a>
+        </div>
+
+    </form>
+</div>
+
+

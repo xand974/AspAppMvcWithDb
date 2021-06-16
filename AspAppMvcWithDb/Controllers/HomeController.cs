@@ -34,20 +34,11 @@ namespace AspAppMvcWithDb.Controllers
         [HttpPost]
         public IActionResult Create(CreateViewModel model)
         {
-            string fileName = "";
+           
             if (ModelState.IsValid)
             {
-                //path vers le dossier images
-                string newFile = Path.Combine(Environment.WebRootPath, "Images");
-                
-                //mettre les fichiers images uniques en ajoutat un Guid
-                fileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                
-                //Combine le path vers le dossier Images + le fichier 
-                string filepath = Path.Combine(newFile, fileName);
-
-                //Copier la photo dans le dossier après Post
-                model.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+                string fileName = UpdatePhoto
+                    (model);
 
                 Post post = new()
                 {
@@ -59,6 +50,26 @@ namespace AspAppMvcWithDb.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        private string UpdatePhoto(CreateViewModel model)
+        {
+            string fileName = "";
+            //path vers le dossier images
+            string newFile = Path.Combine(Environment.WebRootPath, "Images");
+
+            //mettre les fichiers images uniques en ajoutat un Guid
+            fileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+
+            //Combine le path vers le dossier Images + le fichier 
+            string filepath = Path.Combine(newFile, fileName);
+
+            //Copier la photo dans le dossier après Post
+            using(FileStream fileStream = new(filepath, FileMode.Create))
+            {
+                model.Photo.CopyTo(fileStream);
+            }
+            return fileName;
         }
 
         public IActionResult Detail(int id)
@@ -81,6 +92,50 @@ namespace AspAppMvcWithDb.Controllers
         {
             _management.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Post postFound = _management.GetPostById(id);
+            var model = new EditViewModel()
+            {
+                Id = postFound.Id,
+                Title = postFound.Title,
+                Description = postFound.Description,
+                PhotoPath = postFound.Photo,
+                
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Edit(EditViewModel model)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                var postFound = _management.GetPostById(model.Id);
+
+                postFound.Title = model.Title;
+                postFound.Description = model.Description;
+                if(model.Photo != null)
+                {
+                    if(model.PhotoPath != null)
+                    {
+                        //suppression Photo
+                        //recup path vers la photo
+                        string filePath = Path.Combine(Environment.WebRootPath, "Images", model.PhotoPath);
+                       
+                        //supprimer photo
+                        System.IO.File.Delete(filePath);
+                    }
+                    postFound.Photo = UpdatePhoto(model);
+                }
+
+                _management.Update(postFound);  
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }

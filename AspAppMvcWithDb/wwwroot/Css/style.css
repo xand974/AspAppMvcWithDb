@@ -1,4 +1,20 @@
 ﻿.card-img-index {
-    height:150px;
+    height:200px;
+    width:auto;
     object-fit:cover;
+}
+
+.form-container {
+    width:80%;
+    margin: auto;
+}
+.flex {
+    display:flex;
+    flex-direction:column;
+    width:20%;
+    margin:auto;
+}
+
+.flex * {
+    margin-top:20px;
 }
