@@ -8,5 +8,6 @@ namespace AspAppMvcWithDb.Models
         Post Create(Post post);
         Post GetPostById(int id);
         Post Delete(int id);
+        Post Update(Post post);
     }
 }

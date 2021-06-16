@@ -27,7 +27,7 @@ namespace AspAppMvcWithDb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(option => option.UseSqlServer(configuration.GetConnectionString("BlogDbCon")));
-            services.AddSingleton<IPostManagement, PostManagement>();
+            services.AddTransient<IPostManagement, DataSqlRepo>();
             services.AddMvc(setup => setup.EnableEndpointRouting = false);
         }
 

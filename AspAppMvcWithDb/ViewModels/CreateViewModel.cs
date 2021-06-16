@@ -1,4 +1,5 @@
 ﻿using AspAppMvcWithDb.Models;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace AspAppMvcWithDb.ViewModels
@@ -17,5 +18,8 @@ namespace AspAppMvcWithDb.ViewModels
 
 
         public Creator Creator { get; set; }
+
+        [Required]
+        public IFormFile Photo { get; set; }
     }
 }

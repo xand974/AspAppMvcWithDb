@@ -22,5 +22,8 @@ namespace AspAppMvcWithDb.Models
 
 
         public Creator Creator { get; set; }
+
+        [Required]
+        public string Photo { get; set; }
     }
 }

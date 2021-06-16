@@ -38,5 +38,18 @@ namespace AspAppMvcWithDb.Data
         {
             return context.Posts;
         }
+
+        public Post Update(Post post)
+        {
+            var postFound = context.Posts.Attach(post);
+
+            postFound.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            context.SaveChanges();
+
+            return post;
+
+            
+        }
     }
 }

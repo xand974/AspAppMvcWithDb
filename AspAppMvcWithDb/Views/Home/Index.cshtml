@@ -9,10 +9,11 @@
 
     @foreach (var post in Model.GetPosts)
     {
+        var filePath = "~/Images/"+ (post.Photo?? "No images");
         string newPost = string.Empty;
-        string creator = post.Creator.Pseudo != null ? post.Creator.Pseudo : "pas de pseudo";
+        //string creator = post.Creator.Pseudo?? "No pseudo";
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="@filePath" asp-append-version="true" class="card-img-index card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">@post.Title</h5>
                 @if (post.Description.Length > 20)
@@ -21,7 +22,7 @@
                     <p class="card-text">@newPost</p>
                 }
 
-                <small>crée par : @creator</small>
+                <small>crée par : </small>
                 <a asp-controller="Home" asp-action="Detail" asp-route-id="@post.Id" class="btn btn-primary">Detail</a>
                 <form asp-action="Delete" method="post">
                     <button class="btn btn-danger" name="id" type="submit" value="@post.Id">Supprimer</button>

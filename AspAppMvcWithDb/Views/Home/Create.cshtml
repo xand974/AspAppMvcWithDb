@@ -5,7 +5,7 @@
 
 <h1>Composer votre propre poste !</h1>
 
-<form asp-controller="Home" asp-action="Create" method="post">
+<form enctype="multipart/form-data" asp-controller="Home" asp-action="Create" method="post">
     <div class="mb-3">
         <label asp-for="Title" class="form-label"></label>
         <input asp-for="Title" type="text" class="form-control">
@@ -15,6 +15,10 @@
         <label asp-for="Description" class="form-label"></label>
         <input asp-for="Description" type="text" class="form-control">
         <span asp-validation-for="Description" class="text-danger"></span>
+
+
+        <label asp-for="Photo" class="customFile"></label>
+        <input asp-for="Photo" class="form-control custom-file-input" id="customFile" />
     </div>
     <button type="submit" class="btn btn-primary">Poster</button>
 </form>

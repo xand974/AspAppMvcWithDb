@@ -1,8 +1,10 @@
 ﻿using AspAppMvcWithDb.Models;
 using AspAppMvcWithDb.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,9 +14,12 @@ namespace AspAppMvcWithDb.Controllers
     {
         private readonly IPostManagement _management;
 
-        public HomeController(IPostManagement management)
+        public IWebHostEnvironment Environment { get; }
+
+        public HomeController(IPostManagement management, IWebHostEnvironment environment)
         {
             this._management = management;
+            Environment = environment;
         }
 
         public IActionResult Index()
@@ -27,10 +32,29 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Post post)
+        public IActionResult Create(CreateViewModel model)
         {
+            string fileName = "";
             if (ModelState.IsValid)
             {
+                //path vers le dossier images
+                string newFile = Path.Combine(Environment.WebRootPath, "Images");
+                
+                //mettre les fichiers images uniques en ajoutat un Guid
+                fileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                
+                //Combine le path vers le dossier Images + le fichier 
+                string filepath = Path.Combine(newFile, fileName);
+
+                //Copier la photo dans le dossier après Post
+                model.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                Post post = new()
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Photo = fileName
+                };
                 _management.Create(post);
                 return RedirectToAction("Index");
             }
