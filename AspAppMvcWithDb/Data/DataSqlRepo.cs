@@ -22,9 +22,10 @@ namespace AspAppMvcWithDb.Data
             return post;
         }
 
-        public Post Delete(int id)
+        public Post Delete(Post post)
         {
-            Post deletePost = context.Posts.FirstOrDefault(post => post.Id == id);
+            Post deletePost = context.Posts.FirstOrDefault(post => post.Id == post.Id);
+            context.Posts.Remove(deletePost);
             context.SaveChanges();
             return deletePost;
         }

@@ -7,7 +7,7 @@ namespace AspAppMvcWithDb.Models
         IEnumerable<Post> GetPosts();
         Post Create(Post post);
         Post GetPostById(int id);
-        Post Delete(int id);
+        Post Delete(Post post);
         Post Update(Post post);
     }
 }

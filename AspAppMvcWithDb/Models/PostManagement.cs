@@ -37,9 +37,9 @@ namespace AspAppMvcWithDb.Models
             return post;
         }
 
-        public Post Delete(int id)
+        public Post Delete(Post post)
         {
-            Post deletedPost = posts.Find(post => post.Id == id);
+            Post deletedPost = posts.Find(post => post.Id == post.Id);
             posts.Remove(deletedPost);
             return deletedPost;
         }

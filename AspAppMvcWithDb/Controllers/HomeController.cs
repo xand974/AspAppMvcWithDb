@@ -34,7 +34,6 @@ namespace AspAppMvcWithDb.Controllers
         [HttpPost]
         public IActionResult Create(CreateViewModel model)
         {
-           
             if (ModelState.IsValid)
             {
                 string fileName = UpdatePhoto
@@ -72,11 +71,18 @@ namespace AspAppMvcWithDb.Controllers
             return fileName;
         }
 
-        public IActionResult Detail(int id)
+        public IActionResult Detail(int? id)
         {
+            Post postFound = _management.GetPostById(id.Value);
+            if (postFound == null)
+            {
+                int code = Response.StatusCode = 404;
+                return View("HomeError", code);
+            }
+
             var model = new DetailViewModel()
             {
-                GetPostById = _management.GetPostById(id)
+                GetPostById = _management.GetPostById(id??1)
             };
             return new JsonResult(model.GetPostById);
         }
@@ -90,7 +96,9 @@ namespace AspAppMvcWithDb.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            _management.Delete(id);
+            Post postFound = _management.GetPostById(id);
+
+            _management.Delete(postFound);
             return RedirectToAction("Index");
         }
 
