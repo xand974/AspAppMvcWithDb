@@ -106,6 +106,11 @@ namespace AspAppMvcWithDb.Controllers
         public IActionResult Edit(int id)
         {
             Post postFound = _management.GetPostById(id);
+            if(postFound == null)
+            {
+                int error = Response.StatusCode = 404;
+                return View("HomeError", error);
+            }
             var model = new EditViewModel()
             {
                 Id = postFound.Id,

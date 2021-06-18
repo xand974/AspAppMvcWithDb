@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,13 @@ namespace AspAppMvcWithDb.Controllers
 {
     public class ErrorController : Controller
     {
+        private readonly ILogger logger;
+
+        public ErrorController(ILogger<ErrorController> logger)
+        {
+            this.logger = logger;
+        }
+
         [Route("Error/{statuscode}")]
         public IActionResult Index(int status)
         {
@@ -17,6 +25,7 @@ namespace AspAppMvcWithDb.Controllers
             {
                 case 404:
                     ViewBag.ErrorMessage = "on ne parvient pas à traiter votre requête";
+                    logger.LogWarning($"try to acces a endpoint that doesn't exist \n Path : {HttpContext.Request.Path} ");
                     break;
               
             }
@@ -28,8 +37,7 @@ namespace AspAppMvcWithDb.Controllers
         public IActionResult Error()
         {
             var exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            ViewBag.ErrorPath = exception.Path;
-            ViewBag.ErrorMessage = exception.Error.Message;
+            logger.LogError($"Path : {exception.Path} \n Message : {exception.Error.Message}");
 
             return View("Error500");
         }
