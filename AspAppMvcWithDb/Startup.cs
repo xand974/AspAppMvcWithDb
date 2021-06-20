@@ -3,6 +3,7 @@ using AspAppMvcWithDb.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,12 @@ namespace AspAppMvcWithDb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(option => option.UseSqlServer(configuration.GetConnectionString("BlogDbCon")));
+            
+            
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AppDbContext>();
+            
+            
             services.AddTransient<IPostManagement, DataSqlRepo>();
             services.AddMvc(setup => setup.EnableEndpointRouting = false);
         }
@@ -44,7 +51,7 @@ namespace AspAppMvcWithDb
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
 
             

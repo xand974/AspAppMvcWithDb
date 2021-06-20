@@ -119,6 +119,7 @@ namespace AspAppMvcWithDb.Controllers
                 PhotoPath = postFound.Photo,
                 
             };
+
             return View(model);
         }
         [HttpPost]
