@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<IdentityUser> signInManager
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -26,9 +28,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://twitter.com/maletalexandre1">Twitter</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="User" asp-action="Register">Register</a>
-                    </li>
+
+                    @if (signInManager.IsSignedIn(User))
+            {
+                <li class="nav-item">
+                   <form asp-controller="User" asp-action="Logout" method="Post">
+                       <p class="text-primary">@User.Identity.Name</p>
+                       <button class="btn btn-danger" type="submit">Logout</button>
+                   </form>
+                </li>
+            }else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="User" asp-action="Register">Register</a>
+                </li>
+            }
+                    
                 </ul>
             </div>
         </div>

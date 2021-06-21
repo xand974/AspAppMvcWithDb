@@ -36,6 +36,13 @@ namespace AspAppMvcWithDb
             
             services.AddTransient<IPostManagement, DataSqlRepo>();
             services.AddMvc(setup => setup.EnableEndpointRouting = false);
+
+
+            services.Configure<IdentityOptions>(option => 
+            {
+                option.Password.RequiredLength = 4;
+                option.Password.RequireNonAlphanumeric = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
