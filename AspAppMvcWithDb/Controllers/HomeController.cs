@@ -1,5 +1,6 @@
 ﻿using AspAppMvcWithDb.Models;
 using AspAppMvcWithDb.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -32,6 +33,7 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(CreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -88,12 +90,14 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             Post postFound = _management.GetPostById(id);
@@ -103,6 +107,7 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(int id)
         {
             Post postFound = _management.GetPostById(id);
@@ -122,7 +127,9 @@ namespace AspAppMvcWithDb.Controllers
 
             return View(model);
         }
+
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(EditViewModel model)
         {
             
