@@ -49,7 +49,7 @@ namespace AspAppMvcWithDb.Controllers
                 if (result.Succeeded)
                 {
                     //si on réussit à créer un compte, alors on l'authentifie directement en envoyant un cookie 
-                    await SignInManager.SignInAsync(user, isPersistent: true) ;
+                    await SignInManager.SignInAsync(user, isPersistent: false) ;
                     return RedirectToAction("Index", "Home");
                 }
                 foreach (var error in result.Errors)
@@ -63,5 +63,42 @@ namespace AspAppMvcWithDb.Controllers
             }
             return View(model);
         }
+
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await SignInManager.PasswordSignInAsync(userName : model.Username,
+                                                                     password : model.Password, 
+                                                                     isPersistent : model.RememberMe , 
+                                                                     lockoutOnFailure : false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(controllerName: "Home",actionName:"Index");
+                }
+
+                ModelState.AddModelError("", "Invalid login");
+            }
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await SignInManager.SignOutAsync();
+            return RedirectToAction(controllerName:"Home",actionName:"Index");
+        }
+
     }
 }

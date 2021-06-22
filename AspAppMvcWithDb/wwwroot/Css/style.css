@@ -18,3 +18,11 @@
 .flex * {
     margin-top:20px;
 }
+
+.flex-form {
+    display:flex;
+    width:200px;
+}
+.flex-form * {
+    margin-right:20px;
+}
