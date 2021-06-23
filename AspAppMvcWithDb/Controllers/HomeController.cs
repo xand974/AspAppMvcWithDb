@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace AspAppMvcWithDb.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IPostManagement _management;
@@ -23,6 +24,7 @@ namespace AspAppMvcWithDb.Controllers
             Environment = environment;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var model = new IndexViewModel()
@@ -33,7 +35,6 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create(CreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -90,14 +91,12 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Delete(int id)
         {
             Post postFound = _management.GetPostById(id);
@@ -107,7 +106,6 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Edit(int id)
         {
             Post postFound = _management.GetPostById(id);
@@ -129,7 +127,6 @@ namespace AspAppMvcWithDb.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Edit(EditViewModel model)
         {
             
