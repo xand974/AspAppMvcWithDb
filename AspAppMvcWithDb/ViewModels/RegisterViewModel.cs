@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace AspAppMvcWithDb.ViewModels
         [Required]
         [Display(Name ="Pseudo")]
         [DataType(DataType.Text)]
+        [Remote(action: "isUserNameInUse", controller: "Account")]
         public string Username { get; set; }
 
         [Required]

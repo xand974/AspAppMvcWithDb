@@ -1,4 +1,5 @@
 ﻿using AspAppMvcWithDb.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -70,9 +71,23 @@ namespace AspAppMvcWithDb.Controllers
             return View();
         }
 
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(string email)
+        {
+            var user = await manager.FindByEmailAsync(email);
+            if(user == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json("email déjà existant");
+            }
+        }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+            [HttpPost]
+        public async Task<IActionResult> isUserNameInUse(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
