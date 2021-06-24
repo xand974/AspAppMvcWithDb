@@ -1,11 +1,11 @@
-﻿@model LoginViewModel
+﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
 }
 
-<h1>Login</h1>
+<h1>Register</h1>
 
-<form asp-controller="User" asp-action="Login" method="post">
+<form  asp-controller="Account" asp-action="Register" method="post">
     <div class="mb-3">
         <label asp-for="Username" class="form-label"></label>
         <input asp-for="Username" type="text" class="form-control">
@@ -15,13 +15,13 @@
         <label asp-for="Password" class="form-label"></label>
         <input asp-for="Password" class="form-control">
         <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="RememberMe" class="form-label"></label>
-        <input type="checkbox" style="width:50px;" asp-for="RememberMe" class="form-control">
-        <span asp-validation-for="RememberMe" class="text-danger"></span>
-    </div>
 
+
+        <label asp-for="ConfirmPassword" class="customFile"></label>
+        <input asp-for="ConfirmPassword" class="form-control" id="customFile" />
+    </div>
     <div asp-validation-summary="All"></div>
     <button type="submit" class="btn btn-primary">Poster</button>
 </form>
+
+

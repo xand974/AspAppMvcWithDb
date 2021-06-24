@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace AspAppMvcWithDb.Controllers
 {
-    public class UserController : Controller
+    public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> manager;
-        private readonly ILogger<UserController> logger;
+        private readonly ILogger<AccountController> logger;
 
-        public UserController(UserManager<IdentityUser> manager ,
+        public AccountController(UserManager<IdentityUser> manager ,
                               SignInManager<IdentityUser> signInManager,
-                              ILogger<UserController> logger )
+                              ILogger<AccountController> logger )
         {
             this.manager = manager;
             SignInManager = signInManager;
@@ -63,7 +63,6 @@ namespace AspAppMvcWithDb.Controllers
             }
             return View(model);
         }
-
 
         [HttpGet]
         public IActionResult Login()
