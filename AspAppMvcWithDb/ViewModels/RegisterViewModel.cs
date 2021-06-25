@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspAppMvcWithDb.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,7 @@ namespace AspAppMvcWithDb.ViewModels
         [Required]
         [Display(Name ="Pseudo")]
         [DataType(DataType.Text)]
+        [ValidationUsername(allowDomain:"974", ErrorMessage = "username doit avoir 974")]
         [Remote(action: "isUserNameInUse", controller: "Account")]
         public string Username { get; set; }
 
