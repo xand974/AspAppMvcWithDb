@@ -37,7 +37,7 @@ namespace AspAppMvcWithDb.Controllers
                 var result = await manager.CreateAsync(identity);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(controllerName: "Home", actionName: "Index");
+                    return RedirectToAction(actionName: "GetListRoles");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -47,5 +47,16 @@ namespace AspAppMvcWithDb.Controllers
             }
             return View(model);
         }
+
+        public IActionResult GetListRoles()
+        {
+            var roles = manager.Roles;
+            var model = new ListRoleViewModel()
+            {
+                roles = roles
+            };
+            return View("Roles",model);
+        }
     }
+
 }
