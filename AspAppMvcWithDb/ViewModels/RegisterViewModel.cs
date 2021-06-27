@@ -13,11 +13,12 @@ namespace AspAppMvcWithDb.ViewModels
         [Required]
         [Display(Name ="Pseudo")]
         [DataType(DataType.Text)]
-        [ValidationUsername(allowDomain:"974", ErrorMessage = "username doit avoir 974")]
+        /*[ValidationUsername(allowDomain:"974", ErrorMessage = "username doit avoir 974")]*/
         [Remote(action: "isUserNameInUse", controller: "Account")]
         public string Username { get; set; }
 
         [Required]
+
         [Display(Name ="Mot de passe")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
