@@ -1,0 +1,17 @@
+﻿@model CreateRoleViewModel
+@{
+    ViewData["Title"] = "CreateRole";
+}
+
+<h1>CreateRole</h1>
+
+<form asp-controller="Administration" asp-action="GetRole">
+    <div class="mb-3">
+        <label asp-for="RoleName" class="form-label"></label>
+        <input asp-for="RoleName" class="form-control" />
+        <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary">Enroler</button>
+</form>
+
