@@ -48,6 +48,7 @@ namespace AspAppMvcWithDb.Controllers
             return View(model);
         }
 
+        [Authorize]
         public IActionResult GetListRoles()
         {
             var roles = manager.Roles;
@@ -56,6 +57,45 @@ namespace AspAppMvcWithDb.Controllers
                 roles = roles
             };
             return View("Roles",model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            var roleFound =  await manager.FindByIdAsync(id);
+            var model = new EditRoleViewModel()
+            {
+                roleId = roleFound.Id,
+                RoleName = roleFound.Name
+            };
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var role = await manager.FindByIdAsync(model.roleId);
+
+                role.Name = model.RoleName;
+
+                var result =await manager.UpdateAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(controllerName: "Administration", actionName: "GetListRoles");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                
+            }
+            return View(model);
         }
     }
 

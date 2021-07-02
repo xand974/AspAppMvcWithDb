@@ -1,0 +1,17 @@
+﻿@model EditRoleViewModel
+@{
+    ViewData["Title"] = "EditRole";
+}
+
+<h1>EditRole</h1>
+
+<form asp-action="EditRole" asp-controller="Administration" method="post">
+    <input type="hidden"  asp-for="roleId"/>
+    <label asp-for="@Model.roleId"></label>
+    <input disabled  class="form-control" asp-for="@Model.roleId" />
+    
+    <label asp-for="@Model.RoleName"></label>
+    <input class="form-control" asp-for="@Model.RoleName" />
+
+    <button class="btn btn-primary">Editer</button>
+</form>
