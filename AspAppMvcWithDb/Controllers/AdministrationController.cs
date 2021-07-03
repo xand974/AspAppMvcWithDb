@@ -97,6 +97,15 @@ namespace AspAppMvcWithDb.Controllers
             }
             return View(model);
         }
+
+
+        [HttpGet]
+        public IActionResult EditUsersInRole()
+        {
+            return View();
+        }
+
+
     }
 
 }
