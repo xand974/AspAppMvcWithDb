@@ -11,6 +11,6 @@ namespace AspAppMvcWithDb.ViewModels
         [Display(Name ="Numéro du rôle")]
         public string roleId { get; set; }
 
-        List<string> User { get; set; }
+        public List<string> User { get; set; } = new List<string>();
     }
 }

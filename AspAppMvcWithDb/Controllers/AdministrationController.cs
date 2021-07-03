@@ -12,10 +12,12 @@ namespace AspAppMvcWithDb.Controllers
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> manager;
+        private readonly UserManager<IdentityUser> identityRole;
 
-        public AdministrationController(RoleManager<IdentityRole> manager)
+        public AdministrationController(RoleManager<IdentityRole> manager, UserManager<IdentityUser> identityRole)
         {
             this.manager = manager;
+            this.identityRole = identityRole;
         }
 
         [HttpGet]
@@ -63,11 +65,26 @@ namespace AspAppMvcWithDb.Controllers
         public async Task<IActionResult> EditRole(string id)
         {
             var roleFound =  await manager.FindByIdAsync(id);
+            
+            if(roleFound == null)
+            {
+                return View("HomeError");
+            }
+            
             var model = new EditRoleViewModel()
             {
                 roleId = roleFound.Id,
-                RoleName = roleFound.Name
+                RoleName = roleFound.Name,
+                
             };
+
+            foreach (var user in identityRole.Users)
+            {
+                if (User.IsInRole(user.UserName))
+                {
+                    model.User.Add(user.UserName);
+                }
+            }
             return View(model);
         }
 

@@ -6,12 +6,27 @@
 <h1>EditRole</h1>
 
 <form asp-action="EditRole" asp-controller="Administration" method="post">
-    <input type="hidden"  asp-for="roleId"/>
+    <input type="hidden" asp-for="roleId" />
     <label asp-for="@Model.roleId"></label>
-    <input disabled  class="form-control" asp-for="@Model.roleId" />
-    
+    <input disabled class="form-control" asp-for="@Model.roleId" />
+
     <label asp-for="@Model.RoleName"></label>
     <input class="form-control" asp-for="@Model.RoleName" />
+
+    @if (Model.User.Any())
+    {
+        @foreach (var user in Model.User)
+        {
+            <div class="card">
+                <p class="text">@user</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Pas encore de user</p>
+    }
+
 
     <a asp-controller="Administration" asp-action="EditUsersInRole" class="btn btn-primary">Ajouter ou supprimer un utilisateur</a>
 
