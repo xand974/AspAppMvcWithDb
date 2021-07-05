@@ -12,21 +12,31 @@
 
     <label asp-for="@Model.RoleName"></label>
     <input class="form-control" asp-for="@Model.RoleName" />
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-header">Users in this role</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.User.Any())
+            {
+                @foreach (var user in Model.User)
+                {
 
-    @if (Model.User.Any())
-    {
-        @foreach (var user in Model.User)
-        {
-            <div class="card">
-                <p class="text">@user</p>
-            </div>
-        }
-    }
-    else
-    {
-        <p>Pas encore de user</p>
-    }
+                    <p class="text">@user</p>
 
+                }
+
+            }
+            else
+            {
+                <p>Pas encore de user</p>
+            }
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary" asp-controller="Administration" asp-action="EditUsersInRole" asp-route-roleId="@Model.roleId ">Add or Remove User</a>
+        </div>
+
+    </div>
 
     <a asp-controller="Administration" asp-action="EditUsersInRole" class="btn btn-primary">Ajouter ou supprimer un utilisateur</a>
 

@@ -117,9 +117,34 @@ namespace AspAppMvcWithDb.Controllers
 
 
         [HttpGet]
-        public IActionResult EditUsersInRole()
+        public async Task<IActionResult> EditUsersInRole(string roleId)
         {
-            return View();
+            ViewBag.roleId = roleId; 
+            var roleFound = await manager.FindByIdAsync(roleId);
+            if (roleFound == null)
+                return View("HomeError");
+
+            var models = new List<UserRoleViewModel>();
+            foreach (var user in identityRole.Users)
+            {
+                var userRoleViewModel = new UserRoleViewModel()
+                {
+                    UserId = user.Id,
+                    Username = user.UserName,
+                    
+                };
+                if(await identityRole.IsInRoleAsync(user,  roleFound.Name))
+                {
+                    userRoleViewModel.IsSelected = true;
+                }
+                else
+                {
+                    userRoleViewModel.IsSelected = false;
+                }
+                models.Add(userRoleViewModel);
+            }
+
+            return View(models);
         }
 
 
