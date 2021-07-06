@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace AspAppMvcWithDb.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
