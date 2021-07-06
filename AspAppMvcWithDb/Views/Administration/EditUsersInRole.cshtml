@@ -1,0 +1,42 @@
+﻿@*{ 
+    List car on passe une list de cette class dans la view depuis le controller    
+}*@
+
+@model List<UserRoleViewModel> 
+@{
+    ViewData["Title"] = "EditUsersInRole";
+
+    //store le ViewBag du controller et on le stock dans une var
+    var roleId = ViewBag.roleId; 
+}
+
+
+
+<h1>EditUsersInRole</h1>
+
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            <h2>Add or remove user from this role</h2>
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+            <div class="form-check m-1">
+                @*Input hidden bound dans le model passé en param du controller*@
+                <input type="hidden" asp-for="@Model[i].UserId" />
+                <input type="hidden" asp-for="@Model[i].Username" />
+
+
+                <input id="user" type="checkbox" asp-for="@Model[i].IsSelected" class="form-check-input" />
+                <label for="user">@Model[i].Username</label>
+            </div>
+            }
+        </div>
+
+        <div class="card-footer">
+            <input type="submit" value="Update" />
+            <a asp-controller="Administration" asp-action="GetListRoles" asp-route-id="@roleId" class="btn btn-danger">Annuler</a>
+        </div>
+    </div>
+</form>

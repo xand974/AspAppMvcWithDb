@@ -11,13 +11,13 @@ namespace AspAppMvcWithDb.Controllers
 {
     public class AdministrationController : Controller
     {
-        private readonly RoleManager<IdentityRole> manager;
-        private readonly UserManager<IdentityUser> identityRole;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<IdentityUser> userManager;
 
         public AdministrationController(RoleManager<IdentityRole> manager, UserManager<IdentityUser> identityRole)
         {
-            this.manager = manager;
-            this.identityRole = identityRole;
+            this.roleManager = manager;
+            this.userManager = identityRole;
         }
 
         [HttpGet]
@@ -36,7 +36,7 @@ namespace AspAppMvcWithDb.Controllers
                 {
                     Name = model.RoleName
                 };
-                var result = await manager.CreateAsync(identity);
+                var result = await roleManager.CreateAsync(identity);
                 if (result.Succeeded)
                 {
                     return RedirectToAction(actionName: "GetListRoles");
@@ -53,7 +53,7 @@ namespace AspAppMvcWithDb.Controllers
         [Authorize]
         public IActionResult GetListRoles()
         {
-            var roles = manager.Roles;
+            var roles = roleManager.Roles;
             var model = new ListRoleViewModel()
             {
                 roles = roles
@@ -64,7 +64,7 @@ namespace AspAppMvcWithDb.Controllers
         [HttpGet]
         public async Task<IActionResult> EditRole(string id)
         {
-            var roleFound =  await manager.FindByIdAsync(id);
+            var roleFound =  await roleManager.FindByIdAsync(id);
             
             if(roleFound == null)
             {
@@ -78,9 +78,9 @@ namespace AspAppMvcWithDb.Controllers
                 
             };
 
-            foreach (var user in identityRole.Users)
+            foreach (var user in userManager.Users)
             {
-                if (User.IsInRole(user.UserName))
+                if (User.IsInRole(roleFound.Name))
                 {
                     model.User.Add(user.UserName);
                 }
@@ -94,11 +94,11 @@ namespace AspAppMvcWithDb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var role = await manager.FindByIdAsync(model.roleId);
+                var role = await roleManager.FindByIdAsync(model.roleId);
 
                 role.Name = model.RoleName;
 
-                var result =await manager.UpdateAsync(role);
+                var result =await roleManager.UpdateAsync(role);
                 if (result.Succeeded)
                 {
                     return RedirectToAction(controllerName: "Administration", actionName: "GetListRoles");
@@ -120,20 +120,25 @@ namespace AspAppMvcWithDb.Controllers
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.roleId = roleId; 
-            var roleFound = await manager.FindByIdAsync(roleId);
+            var roleFound = await roleManager.FindByIdAsync(roleId);
             if (roleFound == null)
                 return View("HomeError");
 
             var models = new List<UserRoleViewModel>();
-            foreach (var user in identityRole.Users)
+            foreach (var user in userManager.Users)
             {
+                //Creer une instance du ViewModel pour chaque user de la list
+                //on va rajouter l'id et name du user dans le role correspondant
                 var userRoleViewModel = new UserRoleViewModel()
                 {
                     UserId = user.Id,
                     Username = user.UserName,
                     
                 };
-                if(await identityRole.IsInRoleAsync(user,  roleFound.Name))
+
+                //Populate isSelected
+                //Check si un user est déjà membre du role
+                if(User.IsInRole(roleFound.Name))
                 {
                     userRoleViewModel.IsSelected = true;
                 }
@@ -141,10 +146,60 @@ namespace AspAppMvcWithDb.Controllers
                 {
                     userRoleViewModel.IsSelected = false;
                 }
+
+                //ajout du user dans la list
                 models.Add(userRoleViewModel);
             }
 
+            //passer à la view pour faire le rendu
             return View(models);
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model">on utilise le meme model passé dans la view + HTTPGET </param>
+        /// <param name="roleId">vient du param dans la route</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model , string roleId)
+        {
+            //recup le role depuis la db
+            var roleFound = await roleManager.FindByIdAsync(roleId);
+            if (roleFound == null) return View("HomeError");
+
+            //loop a traver le model (list des userrole)
+            for (int i = 0; i < model.Count; i++)
+            {
+                //recup le user ou on a coché
+                var userFound = await userManager.FindByIdAsync(model[i].UserId);
+
+                //initialiser IdentityResult
+                IdentityResult result = null;
+
+                //verif pour quel user on a coché isSelected
+                //verif si le user n'est pas encore un membre du role
+                if (model[i].IsSelected)
+                {
+                    //ajout du user avec le role correspondant
+                   result = await userManager.AddToRoleAsync(userFound, roleFound.Name);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(controllerName: "Administration",actionName: "GetListRoles");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("" , error.Description);
+                    }
+                }
+                
+            }
+
+
+            return View(model);
         }
 
 
