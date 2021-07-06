@@ -4,6 +4,8 @@
     object-fit:cover;
 }
 
+
+
 .form-container {
     width:80%;
     margin: auto;
@@ -26,3 +28,14 @@
 .flex-form * {
     margin-right:20px;
 }
+
+.render {
+    padding:50px 70px;
+    text-align:center;
+
+}
+
+.collapse {
+    align-items:center;
+}
+

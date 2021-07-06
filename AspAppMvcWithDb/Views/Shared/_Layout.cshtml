@@ -39,7 +39,7 @@
                     {
                         <li class="nav-item">
                             <form asp-controller="Account" asp-action="Logout" method="Post" class="flex-form">
-                                <p class="text-primary">@User.Identity.Name</p>
+                                <p  class="text-primary">@User.Identity.Name</p>
                                 <button class="btn btn-danger" type="submit">Logout</button>
                             </form>
                         </li>
@@ -58,7 +58,7 @@
             </div>
         </div>
     </nav>
-    <div>
+    <div class="render">
         @RenderBody()
     </div>
     @if (IsSectionDefined("Scripts"))
