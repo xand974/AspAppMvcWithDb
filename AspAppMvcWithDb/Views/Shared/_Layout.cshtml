@@ -34,12 +34,15 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Administration" asp-action="GetListRoles">Liste des Roles</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav">
+
 
                     @if (signInManager.IsSignedIn(User))
                     {
-                        <li class="nav-item">
+                        <li class="account nav-item">
                             <form asp-controller="Account" asp-action="Logout" method="Post" class="flex-form">
-                                <p  class="text-primary">@User.Identity.Name</p>
+                                <span class="text-primary">@User.Identity.Name</span>
                                 <button class="btn btn-danger" type="submit">Logout</button>
                             </form>
                         </li>
@@ -53,8 +56,8 @@
                             <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
                     }
-
                 </ul>
+                
             </div>
         </div>
     </nav>
