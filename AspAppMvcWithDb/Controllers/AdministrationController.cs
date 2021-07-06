@@ -179,23 +179,39 @@ namespace AspAppMvcWithDb.Controllers
                 //initialiser IdentityResult
                 IdentityResult result = null;
 
+                var isUserInrole = await userManager.IsInRoleAsync(user: userFound, roleFound.Name);
+                //AJOUT DU ROLE AU USER
                 //verif pour quel user on a coché isSelected
                 //verif si le user n'est pas encore un membre du role
-                if (model[i].IsSelected)
+                if (model[i].IsSelected && !isUserInrole)
                 {
                     //ajout du user avec le role correspondant
                    result = await userManager.AddToRoleAsync(userFound, roleFound.Name);
-
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction(controllerName: "Administration",actionName: "GetListRoles");
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("" , error.Description);
-                    }
                 }
-                
+
+
+                //SUPPRESSION ROLE AU USER
+                //si le user est déselectionné + est membre d'un role, alors on le supprime
+                else if (!model[i].IsSelected && (await userManager.IsInRoleAsync(user: userFound, roleFound.Name)))
+                {
+                    //ajout du user avec le role correspondant
+                    result = await userManager.RemoveFromRoleAsync(userFound, roleFound.Name);
+                }
+                //pour les autres cas
+                else
+                {
+                    continue;
+                }
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(controllerName: "Administration", actionName: "GetListRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
             }
 
 
