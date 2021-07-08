@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AspAppMvcWithDb.Controllers
 {
-    [Authorize(Roles = "Admin,User")]
+   /* [Authorize(Roles = "Admin,User")]*/
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -217,6 +217,13 @@ namespace AspAppMvcWithDb.Controllers
 
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ListUser()
+        {
+            var listUsers = userManager.Users;
+            return View("Utilisateurs", listUsers);
         }
 
 
