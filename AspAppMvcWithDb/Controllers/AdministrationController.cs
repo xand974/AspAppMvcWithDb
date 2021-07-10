@@ -226,6 +226,41 @@ namespace AspAppMvcWithDb.Controllers
             return View("Utilisateurs", listUsers);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string UserId)
+        {
+            var userFound = await userManager.FindByIdAsync(UserId);
+           
+
+            var model = new EditUserViewModel()
+            {
+                UserName = userFound.UserName,
+                UserId = userFound.Id
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userFound = await userManager.FindByIdAsync(model.UserId);
+                userFound.UserName = model.UserName;
+
+                var result = await userManager.UpdateAsync(userFound);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(controllerName: "Home" , actionName: "Index");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
+
 
     }
 

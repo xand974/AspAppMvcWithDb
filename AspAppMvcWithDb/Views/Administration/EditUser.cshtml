@@ -1,0 +1,23 @@
+﻿@model EditUserViewModel
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<h1>EditUser</h1>
+
+<p>Change @Model.UserName</p>
+
+<form class="form-container" >
+    <label asp-for="UserId"></label>
+    <input asp-for="UserId" disabled />
+    <input type="hidden" asp-for="UserId" />
+
+    <label asp-for="UserName"></label>
+    <input asp-for="UserName" />
+    <button type="submit" class="btn btn-primary">Editer</button>
+
+</form>
+
+
+
+
